@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subtitler.ai</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { 
+            background: #050505; color: white; display: flex; align-items: center; 
+            justify-content: center; min-height: 100vh; overflow: hidden; margin: 0;
+        }
+        .glow { 
+            position: absolute; width: 400px; height: 400px; 
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.15), transparent 70%); 
+            border-radius: 50%; pointer-events: none; transition: 0.1s; z-index: 0; 
+        }
+        .glass { 
+            background: rgba(255, 255, 255, 0.04); backdrop-filter: blur(20px); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+        }
+        #fill-shade { 
+            position: fixed; bottom: 0; left: 0; height: 100%; 
+            background: rgba(59, 130, 246, 0.08); width: 0%; 
+            transition: width 1s linear; /* Smooth visual background slide */
+            z-index: -1; 
+        }
+        .bar-gradient { 
+            background: linear-gradient(90deg, #3b82f6, #60a5fa); 
+        }
+        #fill-shade-bar {
+            transition: width 1.2s ease-in-out; /* Smooth Bar glide */
+        }
+    </style>
+</head>
+<body>
+    <div id="glow" class="glow"></div>
+    <div id="fill-shade"></div> 
+    
+    <div class="glass p-8 rounded-3xl w-full max-w-sm text-center z-10 shadow-2xl">
+        <h1 class="text-2xl font-bold mb-6 tracking-tight">Subtitler<span class="text-blue-500">.ai</span></h1>
+        
+        <div id="upload-section" class="flex flex-col gap-4">
+            <input type="file" id="file" class="block w-full text-sm text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:bg-white/10 file:text-white file:border-0 hover:file:bg-white/20 cursor-pointer">
+            <select id="lang" class="w-full bg-slate-900 p-2.5 rounded-lg text-sm text-white border border-white/10 focus:outline-none">
+                <option value="en">English</option>
+                <option value="hi">Hindi</option>
+                <option value="hinglish">Hinglish</option>
+                <option value="do_it_yourself">Auto</option>
+            </select>
+            <button onclick="handleFlow()" class="w-full bg-white text-black text-xs font-bold py-3 rounded-lg hover:bg-gray-200 transition">START</button>
+        </div>
+        
+        <div id="status-area" class="hidden mt-4 text-center">
+            <p id="action-text" class="text-xs text-blue-400 mb-2 font-medium">Initializing...</p>
+            <div class="w-full bg-slate-900 h-6 rounded-lg border border-white/10 relative overflow-hidden">
+                <div id="fill-shade-bar" class="bar-gradient h-full w-0"></div>
+                <span id="perc-text" class="absolute inset-0 flex items-center justify-center text-[10px] font-bold">0%</span>
+            </div>
+            <p class="text-[10px] text-slate-500 mt-2">Estimated Time: <span id="eta">00:00</span> minutes</p>
+        </div>
+        
+        <div id="download-section" class="hidden mt-4">
+            <button onclick="downloadFile()" class="w-full border border-white/20 py-2.5 rounded-lg text-sm hover:bg-white/10 transition">Download SRT</button>
+        </div>
+    </div>
+    
+    <script src="/static/script.js"></script>
+</body>
+</html>
