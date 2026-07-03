@@ -11,14 +11,15 @@ if not os.path.exists("uploads"):
     os.makedirs("uploads")
 
 def get_duration(file_path):
-    # Tera exact FFprobe path
-    ffprobe_path = r"C:\Users\nasir\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.1.2-full_build\bin\ffprobe.exe" 
-    
-    if not os.path.exists(ffprobe_path):
-        print(f"ERROR: ffprobe.exe yahan nahi mila: {ffprobe_path}")
-        return 300.0 
+    # Windows pe tera exact path
+    if os.name == "nt":
+        ffprobe_path = r"C:\Users\nasir\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.1.2-full_build\bin\ffprobe.exe"
+    else:
+        # Railway/Linux pe system ffprobe
+        ffprobe_path = "ffprobe"
 
     cmd = [ffprobe_path, "-v", "error", "-show_entries", "format=duration", "-of", "default=noprint_wrappers=1:nokey=1", file_path]
+
     try:
         result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         return float(result.stdout) if result.stdout else 300.0
